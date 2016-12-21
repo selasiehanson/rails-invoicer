@@ -10,7 +10,27 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161221212452) do
+ActiveRecord::Schema.define(version: 20161221224327) do
+
+  create_table "account_details", force: :cascade do |t|
+    t.integer  "user_id"
+    t.integer  "account_id"
+    t.string   "role"
+    t.boolean  "enabled"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["account_id"], name: "index_account_details_on_account_id"
+    t.index ["user_id"], name: "index_account_details_on_user_id"
+  end
+
+  create_table "accounts", force: :cascade do |t|
+    t.string   "organization_name"
+    t.string   "business_email"
+    t.integer  "created_by"
+    t.boolean  "enabled"
+    t.datetime "created_at",        null: false
+    t.datetime "updated_at",        null: false
+  end
 
   create_table "clients", force: :cascade do |t|
     t.string   "name"
@@ -43,6 +63,22 @@ ActiveRecord::Schema.define(version: 20161221212452) do
     t.boolean  "can_be_purchased"
     t.datetime "created_at",       null: false
     t.datetime "updated_at",       null: false
+  end
+
+  create_table "taxes", force: :cascade do |t|
+    t.string   "name"
+    t.string   "description"
+    t.string   "text"
+    t.decimal  "amount",      precision: 5, scale: 2
+    t.datetime "created_at",                          null: false
+    t.datetime "updated_at",                          null: false
+  end
+
+  create_table "users", force: :cascade do |t|
+    t.string   "email"
+    t.string   "password"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
 end
