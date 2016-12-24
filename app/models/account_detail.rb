@@ -8,7 +8,7 @@ class AccountDetail < ApplicationRecord
   def valid_role
     roles = %w(admin cashier)
     error_message = "role must be one of the following #{roles}"
-    unless roles.include?(self.role)
+    unless roles.include?(role)
       errors.add(:role, error_message)
     end
   end

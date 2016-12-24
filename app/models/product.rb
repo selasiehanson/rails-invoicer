@@ -5,6 +5,8 @@ class Product < ApplicationRecord
     validates :product_type, presence: true
     validate  :valid_product_type
 
+    belongs_to :account
+
     def valid_product_type
         types = %w(consumable durable service)
         msg = "product_type must be one of the following #{types}"

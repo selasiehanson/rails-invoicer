@@ -1,20 +1,20 @@
 class TaxesController < ApplicationController
 
-   
   rescue_from ActiveRecord::RecordNotFound, with: :tax_not_found
-  before_action :find_tax, only:  [:show, :update, :destroy]
+  before_action :find_tax, only: [:show, :update, :destroy]
 
   def index
-    taxes = Tax.all
+    taxes = current_tenant.taxes
     render json: taxes
   end
 
   def show
-      render json: @tax      
+    render json: @tax
   end
 
   def create
     tax = Tax.new(tax_params)
+    tax.account_id = current_tenant.id
     if tax.save
       render json: tax
     else
@@ -36,15 +36,16 @@ class TaxesController < ApplicationController
   end
 
   private
-    def tax_params
-      params.require(:tax).permit(:name, :description,:amount)
-    end
 
-    def find_tax
-        @tax = Tax.find(params[:id])
-    end
+  def tax_params
+    params.require(:tax).permit(:name, :description,:amount)
+  end
 
-    def tax_not_found
-      render json: {message: "sorry couldn't find tax"} , status: :bad_request
-    end
+  def find_tax
+    @tax = current_tenant.taxes.find(params[:id])
+  end
+
+  def tax_not_found
+    render json: { message: "sorry couldn't find tax" }, status: :bad_request
+  end
 end

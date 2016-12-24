@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161221224327) do
+ActiveRecord::Schema.define(version: 20161224163029) do
 
   create_table "account_details", force: :cascade do |t|
     t.integer  "user_id"
@@ -39,6 +39,8 @@ ActiveRecord::Schema.define(version: 20161221224327) do
     t.text     "address"
     t.datetime "created_at",   null: false
     t.datetime "updated_at",   null: false
+    t.integer  "account_id"
+    t.index ["account_id"], name: "index_clients_on_account_id"
   end
 
   create_table "currencies", force: :cascade do |t|
@@ -63,6 +65,8 @@ ActiveRecord::Schema.define(version: 20161221224327) do
     t.boolean  "can_be_purchased"
     t.datetime "created_at",       null: false
     t.datetime "updated_at",       null: false
+    t.integer  "account_id"
+    t.index ["account_id"], name: "index_products_on_account_id"
   end
 
   create_table "taxes", force: :cascade do |t|
@@ -72,13 +76,17 @@ ActiveRecord::Schema.define(version: 20161221224327) do
     t.decimal  "amount",      precision: 5, scale: 2
     t.datetime "created_at",                          null: false
     t.datetime "updated_at",                          null: false
+    t.integer  "account_id"
+    t.index ["account_id"], name: "index_taxes_on_account_id"
   end
 
   create_table "users", force: :cascade do |t|
     t.string   "email"
-    t.string   "password"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.string   "password_digest"
+    t.datetime "created_at",      null: false
+    t.datetime "updated_at",      null: false
+    t.string   "first_name"
+    t.string   "last_name"
   end
 
 end
